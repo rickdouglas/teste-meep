@@ -8,7 +8,7 @@ const {Navigator, Screen} = createStackNavigator();
 export default function Routes() {
   return (
     <NavigationContainer>
-      <Navigator>
+      <Navigator screenOptions={{headerShown:false}}>
 
         <Screen name="Home" component={Home} />
       </Navigator>
