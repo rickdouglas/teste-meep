@@ -1,8 +1,11 @@
 import React, {useEffect, useState} from 'react';
-import {View, Text, TouchableOpacity,StyleSheet, FlatList} from 'react-native';
+import {View, Text, TouchableOpacity, StyleSheet, FlatList} from 'react-native';
+import {useNavigation} from '@react-navigation/native'
 import api from '../services/service';
 
 export default function Home() {
+  const navigation = useNavigation();
+
   const [movies, setMovies] = useState([]);
 
   useEffect(() => {
@@ -10,6 +13,10 @@ export default function Home() {
       setMovies(response.data.results);
     });
   }, []);
+
+  const handleNavigateToDetails = (item)=>{
+    navigation.navigate('Details', {data: item});
+  }
 
   return (
     <View style={styles.container}>
@@ -19,7 +26,7 @@ export default function Home() {
       showsVerticalScrollIndicator={false}
       keyExtractor={item=>String(item.episode_id)}
       renderItem={({item}) => (
-                  <TouchableOpacity key={item.title} style={styles.button} activeOpacity={0.7}>
+                  <TouchableOpacity key={item.title} onPress={() => handleNavigateToDetails(item) } style={styles.button} activeOpacity={0.7}>
                     <Text style={styles.movieTitle}>{item.title}</Text>
                     <Text style={styles.movieDetails}>Diretor: {item.director}</Text>
                     <Text style={styles.movieDetails}>Produtor: {item.producer}</Text>
@@ -30,7 +37,7 @@ export default function Home() {
       />
     </View>
   );
-// #4E0000 Vermelho Dark
+//   #4E0000 Vermelho Dark
 // #9E0000 Vermelho 
 // #DDDEDA Branco
 // #020004 Preto
