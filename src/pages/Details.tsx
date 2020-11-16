@@ -1,21 +1,18 @@
 import React, {useEffect, useState} from 'react';
 import {View, Text, TouchableOpacity, StyleSheet, FlatList} from 'react-native';
 import {useRoute} from '@react-navigation/native'
-import {useNavigation} from '@react-navigation/native'
-import api from '../services/service';
-import { set } from 'react-native-reanimated';
+import api from '../services/service'
 
 export default function Details() {
   const route = useRoute();
 
-  const [details, setDetails] = useState({});
-
-  const navigation = useNavigation();
-
-  const handleNavigateToCharacters = (item)=>{
-    navigation.navigate('Characters', {data: item});
-  }
-
+  const [details, setDetails] = useState([]);
+  const [character, setCharacter] = useState([]);
+  useEffect(()=> {
+      api.get('people').then((response)=> {
+          setCharacter(response.data.results);
+      });
+  }, []);
 
   useEffect(()=>{
     setDetails(route.params.data)
